@@ -25,7 +25,7 @@ export const authenticateJwt = (req:Request,res:Response,next:NextFunction)=>{
                 return res.sendStatus(403);
             }
             
-            req.headers.userID = user.id;
+            req.headers.userId = user.id;
             next();
         })
         

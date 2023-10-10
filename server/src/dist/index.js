@@ -22,6 +22,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const auth_1 = __importDefault(require("./routes/auth"));
+const urlShorten_1 = __importDefault(require("./routes/urlShorten"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 const DATABASE_URL = process.env.DATABASE_LINK;
@@ -30,6 +31,7 @@ app.use((0, cors_1.default)());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use("/auth", auth_1.default);
+app.use("/myUrl", urlShorten_1.default);
 app.listen(PORT, () => {
     console.log("server running on port 3001");
 });

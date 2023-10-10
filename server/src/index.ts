@@ -17,7 +17,8 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
-import authRoutes from './routes/auth'
+import authRoutes from './routes/auth';
+import shortenRoutes from './routes/urlShorten'
 const app = express();
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json())
 
 app.use("/auth",authRoutes);
+app.use("/myUrl",shortenRoutes);
 
 
 app.listen(PORT,()=>{
