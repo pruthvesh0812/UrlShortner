@@ -10,7 +10,7 @@ dotenv.config()
 const SECRET :string = process.env.SECRET || '';
 
 export const authenticateJwt = (req:Request,res:Response,next:NextFunction)=>{
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization; 
     if(authHeader){
         const token:string = authHeader.split(' ')[1];
         jwt.verify(token,SECRET,(err,user)=>{
