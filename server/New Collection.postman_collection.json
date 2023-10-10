@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "3431b379-7fc4-407e-a8fd-ee41c6410655",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29070320"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/admin/signup ",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "username",
+						"value": "pruthveshshetkar@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MjVhOGI3NTY1ZDY3MzRlODFmZDAzOCIsImlhdCI6MTY5Njk2Njg0MCwiZXhwIjoxNjk2OTcwNDQwfQ.aZh_Nj_etKFRys0Ps3HAk47qCICwlAQZz7xn1zymWis",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"pruthvesh\",\r\n    \"password\":\"pruthvesh_password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/auth/signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"pruthvesh\",\r\n    \"password\":\"pruthvesh_password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Todos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MjVhOGI3NTY1ZDY3MzRlODFmZDAzOCIsImlhdCI6MTY5Njk2NzU5NCwiZXhwIjoxNjk2OTcxMTk0fQ.poX4xWboW2Oh7ZuTBnGv9gwEXFB0hxDHfwyjmOLnZV8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3001/auth/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"auth",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/url/shorten",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"originUrl\":\"https://www.google.com/search?q=what+is+env+file+and+how+to+create+it&oq=what+is+env+file+and+how+to+create+it&gs_lcrp=EgZjaHJvbWUyCwgAEEUYChg5GKABMgkIARAhGAoYoAEyCQgCECEYChigATIKCAMQIRgWGB0YHjIKCAQQIRgWGB0YHjIKCAUQIRgWGB0YHjIKCAYQIRgWGB0YHjIKCAcQIRgWGB0YHjIKCAgQIRgWGB0YHjIKCAkQIRgWGB0YHtIBCDgwODVqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/url/shorten",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"url",
+						"shorten"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
