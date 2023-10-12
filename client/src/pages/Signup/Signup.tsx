@@ -1,14 +1,21 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../config'
 
 export default function Signup() {
 
    const [username,setUsername] = useState<string>('');
    const [password,setPassword] = useState<string>('');
-   
-  const handleLogin = ()=>{
-    // axios.post("")
+   const navigate = useNavigate();
+
+  const handleSignup = ()=>{
+    
+    axios.post(`${BASE_URL}/auth/signup`,{username,password}).then(response=>{
+      console.log(response.data.message);
+      localStorage.setItem("token",response.data.token);
+      navigate("/");
+    })
   }
 
 
@@ -42,7 +49,7 @@ export default function Signup() {
             <div className='flex-col '>
                 <div className='flex justify-center'>
                 <button className='bg-orange-500 text-white font-semibold px-2 w-[120px] py-2 mt-2 rounded-sm'
-                        onClick={()=>{handleLogin()}}>Signup</button>
+                        onClick={()=>{handleSignup()}}>Signup</button>
                 </div>
                 <Link to='/Login'><h3 className='text-purple-900  mt-4 text-base'>Already have an account? Login</h3></Link>               
             </div>

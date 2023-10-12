@@ -46,7 +46,7 @@ router.post("/login", async (req:Request,res:Response)=>{
 
 // to check if the user if logged in already
 router.get("/user" , authenticateJwt , async (req:Request,res:Response,next:NextFunction)=>{
-    const user = await User.findOne({id:req.headers.userId});
+    const user = await User.findById({_id:req.headers.userId});
     if(user){
         res.json({username:user.username});
     }

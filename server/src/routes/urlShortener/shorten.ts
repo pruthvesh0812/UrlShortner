@@ -18,6 +18,21 @@ dotenv.config()
 
 const BaseUrl: string = process.env.BASE_URL;
 
+const checkUrlValidity = async (url:string)=>{
+    try{
+        const res = await fetch(`${url}`,{
+            method:"GET",
+        });
+    
+        return res.status;
+    }
+    catch(err){
+        return 404;
+    }
+    
+
+}
+
 router.post("/shorten", authenticateJwt, async (req: Request, res: Response) => {
     const userId = req.headers.userId;
     console.log(userId, "id")
@@ -29,19 +44,28 @@ router.post("/shorten", authenticateJwt, async (req: Request, res: Response) => 
         const url = await ShortenedUrls.findOne({origin:originUrl});
         if(url) return res.json({message:"url already shortened", shortened:`${BaseUrl}/urlShortener/${url._id}`})
 
-        const oriUrl = new ShortenedUrls({ origin: originUrl });
-        await oriUrl.save();
+        checkUrlValidity(originUrl).then(async statusCode => {
+            if(statusCode == 200){
+                const oriUrl = new ShortenedUrls({ origin: originUrl });
+                await oriUrl.save();
+        
+                const shortendEndPoint = await ShortenedUrls.findOne({ origin: originUrl })
+                if (shortendEndPoint) {
+                    user.urlIds.push(shortendEndPoint._id);
+                    await user.save();
+                    console.log(shortendEndPoint._id, "url new")
+                    res.json({ message: "url shortened successfully", shortened: `${BaseUrl}/urlShortener/${shortendEndPoint._id}` })
+                }
+                else {
+                    res.json({ message: "No such Url found" })
+                }
+            }
+            else{
+                res.status(404).json({ message: "Invalid Url" })
+            }
+        })
 
-        const shortendEndPoint = await ShortenedUrls.findOne({ origin: originUrl })
-        if (shortendEndPoint) {
-            user.urlIds.push(shortendEndPoint._id);
-            await user.save();
-            console.log(shortendEndPoint._id, "url new")
-            res.json({ message: "url shortened successfully", shortened: `${BaseUrl}/urlShortener/${shortendEndPoint._id}` })
-        }
-        else {
-            res.json({ message: "No such Url found" })
-        }
+        
 
     }
     else {

@@ -1,14 +1,22 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../config'
+
+
 
 export default function Login() {
 
    const [username,setUsername] = useState<string>('');
    const [password,setPassword] = useState<string>('');
+   const navigate =  useNavigate()
 
   const handleLogin = ()=>{
-    // axios.post("")
+    axios.post(`${BASE_URL}/auth/login`,{username,password}).then(response=>{
+      console.log(response.data.message);
+      localStorage.setItem("token",response.data.token);
+      navigate("/");
+    })
   }
 
 

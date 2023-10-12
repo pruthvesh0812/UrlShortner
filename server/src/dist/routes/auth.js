@@ -52,7 +52,7 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 // to check if the user if logged in already
 router.get("/user", middleware_1.authenticateJwt, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield db_1.User.findOne({ id: req.headers.userId });
+    const user = yield db_1.User.findById({ _id: req.headers.userId });
     if (user) {
         res.json({ username: user.username });
     }
