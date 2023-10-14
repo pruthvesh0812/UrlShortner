@@ -27,7 +27,7 @@ router.get("/", authenticateJwt ,async (req:Request,res:Response) => {
         console.log(originUrlArr.urlIds[0]);
         originUrlArr.urlIds.forEach((urlId,index)=>{   
             
-            allUrlsArray.push({shortUrl:`${BASE_URL}/urlShortener/${urlId._id}` , originUrl:`${urlId._id}`});
+            allUrlsArray.push({shortUrl:`${BASE_URL}/urlShortener/${urlId._id}` , originUrl:''});
         })
 
         res.json({message:"retrieval successful",allUrlsArray});
