@@ -10,9 +10,11 @@ import express, { NextFunction, Request, Response } from 'express';
 import { authenticateJwt } from '../../middleware';
 import { User, ShortenedUrls } from '../../db';
 import { ObjectId } from 'mongoose';
-const router = express.Router();
+import allUrlRoutes from "./allUrl";
 import dotenv from 'dotenv'
 
+const router = express.Router();
+const app = express();
 
 dotenv.config()
 
@@ -32,6 +34,8 @@ const checkUrlValidity = async (url:string)=>{
     
 
 }
+
+router.use("/allUrl",allUrlRoutes);
 
 router.post("/shorten", authenticateJwt, async (req: Request, res: Response) => {
     const userId = req.headers.userId;
@@ -74,5 +78,7 @@ router.post("/shorten", authenticateJwt, async (req: Request, res: Response) => 
 
 
 })
+
+
 
 export default router;

@@ -23,8 +23,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const middleware_1 = require("../../middleware");
 const db_1 = require("../../db");
-const router = express_1.default.Router();
+const allUrl_1 = __importDefault(require("./allUrl"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const router = express_1.default.Router();
+const app = (0, express_1.default)();
 dotenv_1.default.config();
 const BaseUrl = process.env.BASE_URL;
 const checkUrlValidity = (url) => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,6 +40,7 @@ const checkUrlValidity = (url) => __awaiter(void 0, void 0, void 0, function* ()
         return 404;
     }
 });
+router.use("/allUrl", allUrl_1.default);
 router.post("/shorten", middleware_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.headers.userId;
     console.log(userId, "id");

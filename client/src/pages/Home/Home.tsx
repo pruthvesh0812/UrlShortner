@@ -5,7 +5,7 @@ import copy from '../../assets/copy.png'
 import loading from '../../assets/loading.png'
 import {z} from 'zod'
 
-const urlValid = z.union([z.literal(""), z.string().trim().url()]);
+const urlValid = z.union([z.literal(""), z.string().trim().url().min(1)]);
 
 export default function Home() {
 
@@ -19,6 +19,7 @@ export default function Home() {
   const handleShorten = async ()=>{
     setISLoading(true)
     const parseUrl = urlValid.safeParse(url);
+
     if(parseUrl.success){
       try{
 
