@@ -1,5 +1,5 @@
 import { useState , useEffect } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 import { BASE_URL } from "../config";
 
 interface Url {
@@ -18,12 +18,27 @@ export const useUrls = ()=>{
         authorization:"Bearer " + `${localStorage.getItem("token")}`
        }});
   
+       
+       response.data.allUrlsArray.forEach((url:Url,index:number)=>{
+            // this can be empty from backend can send anything in res.json
+         if(response.data.originUrls[index]){
+           url.originUrl=response.data.originUrls[index].origin;
+         }
+        });
+
        setAllUrls(response.data.allUrlsArray);
-     }
+      
+     }  
 
      useEffect(()=>{
         getUrls();
      },[])
-
-      return allUrls;
+      
+     if(allUrls.length >= 1){
+      const reverseUrlArr:Url[] = [...allUrls]  // copies elements of allUrls to reverseUrlArr in one line of code
+      return reverseUrlArr.reverse()
+     }
+     else{
+      return "No Urls Found";
+     }
 }

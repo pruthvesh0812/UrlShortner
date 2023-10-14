@@ -5,25 +5,28 @@ import { useNavigate } from 'react-router-dom';
 export default function NavBar() {
   
   const [isUserLoggedIn , setIsUserLoggedIn] = useState<boolean>(false);
+  const [inAccount, setInAccount] = useState<boolean>(false)
+  const [username,setUsername] = useState<string>("")
   const navigate = useNavigate();  
 
+  const init = async () =>{
+    axios.get("http://localhost:3001/auth/user",{headers:{
+        authorization:"Bearer "  + `${localStorage.getItem("token")}`
+    }}).then((response)=>{
+        
+        if(response.data.username){
+            setIsUserLoggedIn(true);
+            setUsername(response.data.username)
+        }
+        else{
+            setIsUserLoggedIn(false);
+            alert("false token:"+localStorage.getItem("token"))
+        }
+    })
+  }
+
   useEffect(()=>{
-      const init = async () =>{
-        axios.get("http://localhost:3001/auth/user",{headers:{
-            authorization:"Bearer "  + `${localStorage.getItem("token")}`
-        }}).then((response)=>{
-            
-            if(response.data.username){
-                setIsUserLoggedIn(true);
-                console.log(response.data.username)
-            }
-            else{
-                setIsUserLoggedIn(false);
-                console.log(localStorage.getItem("token"))
-            }
-        })
-      }
-    
+
       init();
 
   },[])
@@ -32,7 +35,11 @@ export default function NavBar() {
     <div className='flex justify-between px-3 py-2' >
       <div className='flex justify-start'>
         <img src={logo} alt="logo" className='w-12 h-12 -mt-2'/>
-        <h2 className='text-lg text-orange-500 font-semibold'>My Url Shortener</h2>
+        <h2 className='text-2xl text-orange-500 font-semibold'>My Url Shortenere </h2>
+        {
+          username.length != 0 && 
+            <h2 className='text-2xl text-orange-500 font-semibold'>| Hello {username}</h2>
+        }
       </div>
       <div >
          {((!isUserLoggedIn) ? 
@@ -50,14 +57,28 @@ export default function NavBar() {
          </div>
          :
          <div className='flex-row'>
-            <button className='bg-orange-500 mr-2 rounded-md text-white font-semibold px-3 py-2'
-                      onClick={()=>{
-                        navigate("/account");
-                        }}>My Account</button>
+          {
+            !inAccount && 
+                <button className='bg-orange-500 mr-2 rounded-md text-white font-semibold px-3 py-2'
+                onClick={()=>{
+                  setInAccount(true)
+                  navigate("/account");
+                  }}>My Account</button>
+             ||
+
+                <button className='bg-orange-500 mr-2 rounded-md text-white font-semibold px-3 py-2'
+                onClick={()=>{
+                  setInAccount(false)
+                  navigate("/");
+                  }}>Home</button>
+          }
+           
             <button className='bg-orange-500 rounded-md text-white font-semibold px-3 py-2'
                     onClick={()=>{
                       localStorage.setItem("token",'');
-                      setIsUserLoggedIn(false)}
+                      setIsUserLoggedIn(false)
+                      setUsername('');
+                      navigate('/')}
                       }>Logout</button>
          </div>
          )}

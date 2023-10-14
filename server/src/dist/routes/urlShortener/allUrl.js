@@ -24,22 +24,18 @@ router.get("/", middleware_1.authenticateJwt, (req, res) => __awaiter(void 0, vo
     const userId = req.headers.userId;
     const user = yield db_1.User.findById({ _id: userId });
     if (user) {
-        console.log("user", user);
-        const allUrlsArray = [];
-        user.urlIds.forEach((urlId, index) => {
-            db_1.ShortenedUrls.findById({ _id: urlId._id }).then((res => {
-                console.log(res, "ressdfs");
-                const originUrlArr = res;
-                if (originUrlArr) {
-                    allUrlsArray.push({ shortUrl: `${BASE_URL}/urlShortener/${urlId._id}`, originUrl: originUrlArr.origin || '' });
-                }
-                else {
-                    console.log("not running");
-                }
-            }));
-        });
-        console.log(allUrlsArray, "sdfasdf");
-        res.json({ message: "retrieval successful", allUrlsArray });
+        let allUrlsArray = [];
+        const originUrls = yield db_1.ShortenedUrls.find({ _id: { $in: user.urlIds } });
+        console.log(originUrls[0].origin);
+        if (originUrls) {
+            user.urlIds.forEach((urlId, index) => {
+                allUrlsArray.push({
+                    shortUrl: `${BASE_URL}/urlShortener/${urlId._id}`,
+                    originUrl: ''
+                });
+            });
+            res.json({ message: "retrieval successful", allUrlsArray, originUrls });
+        }
     }
     else {
         res.json({ message: "User Not Found" });
