@@ -14,7 +14,13 @@ export default function Login() {
   const handleLogin = ()=>{
     axios.post(`${BASE_URL}/auth/login`,{username,password}).then(response=>{
       console.log(response.data.message);
-      localStorage.setItem("token",response.data.token);
+      try{
+        localStorage.setItem("token",response.data.token);
+
+      }
+      catch(e){
+        alert(e)
+      }
       navigate("/");
     })
   }

@@ -26,7 +26,7 @@ router.get("/", middleware_1.authenticateJwt, (req, res) => __awaiter(void 0, vo
     if (user) {
         let allUrlsArray = [];
         const originUrls = yield db_1.ShortenedUrls.find({ _id: { $in: user.urlIds } });
-        console.log(originUrls[0].origin);
+        console.log(originUrls);
         if (originUrls) {
             user.urlIds.forEach((urlId, index) => {
                 allUrlsArray.push({
@@ -35,6 +35,9 @@ router.get("/", middleware_1.authenticateJwt, (req, res) => __awaiter(void 0, vo
                 });
             });
             res.json({ message: "retrieval successful", allUrlsArray, originUrls });
+        }
+        else {
+            res.json({ message: "No shortened Urls" });
         }
     }
     else {

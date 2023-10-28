@@ -25,7 +25,7 @@ const checkUrlValidity = async (url:string)=>{
         const res = await fetch(`${url}`,{
             method:"GET",
         });
-    
+      
         return res.status;
     }
     catch(err){

@@ -14,6 +14,7 @@ export default function Signup() {
     axios.post(`${BASE_URL}/auth/signup`,{username,password}).then(response=>{
       console.log(response.data.message);
       localStorage.setItem("token",response.data.token);
+      console.log("signedup")
       navigate("/");
     })
   }
